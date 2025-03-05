@@ -26,7 +26,7 @@ async def on_ready():
     while True:
         for activity in activities:
             await bot.change_presence(activity=activity)
-            await asyncio.sleep(2)
+            await asyncio.sleep(10)
 
 
 bot.run(token)
