@@ -8,7 +8,6 @@ from data.config import token
 
 intents = disnake.Intents.all()
 
-
 bot = commands.InteractionBot(intents=intents)
 load_cogs(bot, 'cogs.commands', 'cogs.events')
 
