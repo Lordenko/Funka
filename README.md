@@ -4,7 +4,7 @@
 
 ## Stage 2: Create and activate venv
 ```powershell
-python -m venv myenv
+python3.13 -m venv myenv
 source myenv/bin/activate
 ```
 
@@ -18,4 +18,8 @@ pip install -r requirements.txt
 TOKEN=TOKEN
 ```
 
+## Stage 5: Start bot
+```powershell
+python3.13 bot.py
+```
 
