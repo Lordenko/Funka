@@ -15,18 +15,6 @@ load_cogs(bot, 'cogs.commands', 'cogs.events')
 async def on_ready():
     print(f'{bot.user} is online!')
 
-    activities = [
-        disnake.Activity(type=disnake.ActivityType.watching, name="to broken code."),
-        disnake.Activity(type=disnake.ActivityType.watching, name="to broken code.."),
-        disnake.Activity(type=disnake.ActivityType.watching, name="to broken code..."),
-        disnake.Activity(type=disnake.ActivityType.watching, name="to broken code.."),
-
-    ]
-
-    while True:
-        for activity in activities:
-            await bot.change_presence(activity=activity)
-            await asyncio.sleep(10)
-
+    await bot.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="to broken code..."))
 
 bot.run(token)
