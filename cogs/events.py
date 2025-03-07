@@ -23,6 +23,8 @@ class EventsCog(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         channel = message.guild.system_channel
+
+        print(message.content)
         if channel:
             await channel.send(f'{message.content}')
 
