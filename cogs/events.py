@@ -6,7 +6,7 @@ from disnake import FFmpegPCMAudio
 
 from datetime import datetime, timedelta
 
-from utils.defs import vc_disconnect
+from utils.defs import knight_say
 
 class EventsCog(commands.Cog):
     def __init__(self, bot):
@@ -32,26 +32,32 @@ class EventsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author.bot:
-            return
+        connect_to_voice = False
 
-        voice = disnake.File('media/извинись.ogg')
+        await knight_say(
+            message=message,
+            history=self.history,
+            say='иди нахуй',
+            path_to_file='media/извинись.ogg',
+            connect_to_voice=connect_to_voice
+        )
 
-        if 'иди нахуй' in message.content.lower():
-            now = datetime.now()
+        await knight_say(
+            message=message,
+            history=self.history,
+            say='женщина',
+            path_to_file='media/женщина.ogg',
+            connect_to_voice=connect_to_voice
+        )
 
-            if message.author.id in self.history and now - self.history[message.author.id] < timedelta(minutes=5):
-                await message.reply(f'Спробуй через декілька хвилин :)')
+        await knight_say(
+            message=message,
+            history=self.history,
+            say='нет',
+            path_to_file='media/нет.ogg',
+            connect_to_voice=connect_to_voice
+        )
 
-            self.history[message.author.id] = now
-
-            if message.author.voice and message.author.voice.channel:
-                vc = await message.author.voice.channel.connect()
-
-                media = FFmpegPCMAudio('media/извинись.ogg')
-                vc.play(media, after=lambda _: self.bot.loop.create_task(vc_disconnect(vc)))
-            else:
-                await message.reply(file=voice)
 
 
 def setup(bot):
