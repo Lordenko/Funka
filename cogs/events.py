@@ -4,9 +4,15 @@ from disnake.ext import commands
 import disnake
 from disnake import FFmpegPCMAudio
 
+from datetime import datetime, timedelta
+
+from utils.defs import vc_disconnect
+
 class EventsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.history = {}
+
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -26,13 +32,24 @@ class EventsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author.bot:
+            return
+
         voice = disnake.File('media/извинись.ogg')
 
         if 'иди нахуй' in message.content.lower():
-            if message.author.voice:
+            now = datetime.now()
+
+            if message.author.id in self.history and now - self.history[message.author.id] < timedelta(minutes=5):
+                await message.reply(f'Спробуй через декілька хвилин :)')
+
+            self.history[message.author.id] = now
+
+            if message.author.voice and message.author.voice.channel:
                 vc = await message.author.voice.channel.connect()
+
                 media = FFmpegPCMAudio('media/извинись.ogg')
-                vc.play(media, after=lambda _: self.bot.loop.create_task(vc.disconnect()))
+                vc.play(media, after=lambda _: self.bot.loop.create_task(vc_disconnect(vc)))
             else:
                 await message.reply(file=voice)
 
