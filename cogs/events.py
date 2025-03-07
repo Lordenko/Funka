@@ -1,4 +1,8 @@
+import asyncio
+
 from disnake.ext import commands
+import disnake
+from disnake import FFmpegPCMAudio
 
 class EventsCog(commands.Cog):
     def __init__(self, bot):
@@ -22,11 +26,16 @@ class EventsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        channel = message.guild.system_channel
+        voice = disnake.File('media/извинись.ogg')
 
-        print(message.content)
-        if channel:
-            await channel.send(f'{message.content}')
+        if 'иди нахуй' in message.content.lower():
+            if message.author.voice:
+                vc = await message.author.voice.channel.connect()
+                media = FFmpegPCMAudio('media/извинись.ogg')
+                vc.play(media, after=lambda _: self.bot.loop.create_task(vc.disconnect()))
+            else:
+                await message.reply(file=voice)
+
 
 def setup(bot):
     bot.add_cog(EventsCog(bot))
