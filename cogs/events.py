@@ -20,5 +20,11 @@ class EventsCog(commands.Cog):
         if channel:
             await channel.send(f'{member.mention} покинув нас. Сумуватимемо!')
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        channel = member.guild.system_channel
+        if channel:
+            await channel.send(f'{message.content}')
+
 def setup(bot):
     bot.add_cog(EventsCog(bot))
