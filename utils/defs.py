@@ -1,5 +1,7 @@
 import asyncio
 import disnake
+from datetime import datetime
+from disnake import FFmpegPCMAudio
 
 def load_cogs(bot, *initial_extensions):
     for extension in initial_extensions:
@@ -10,7 +12,7 @@ async def vc_disconnect(vc):
     await vc.disconnect()
 
 
-async def knight_say(message, history, say, path_to_file, connect_to_voice = False):
+async def knight_say(message, history, say, path_to_file, bot, connect_to_voice = False):
     COOLDOWN = 5 # minutes
 
     if message.author.bot:
@@ -30,6 +32,6 @@ async def knight_say(message, history, say, path_to_file, connect_to_voice = Fal
         if connect_to_voice and message.author.voice and message.author.voice.channel:
             vc = await message.author.voice.channel.connect()
             media = FFmpegPCMAudio(path_to_file)
-            vc.play(media, after=lambda _: self.bot.loop.create_task(vc_disconnect(vc)))
+            vc.play(media, after=lambda _: bot.loop.create_task(vc_disconnect(vc)))
         else:
             await message.reply(file=voice)

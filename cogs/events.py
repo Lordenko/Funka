@@ -32,13 +32,14 @@ class EventsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        connect_to_voice = False
+        connect_to_voice = True
 
         await knight_say(
             message=message,
             history=self.history,
             say='иди нахуй',
             path_to_file='media/извинись.ogg',
+            bot = self.bot,
             connect_to_voice=connect_to_voice
         )
 
@@ -47,6 +48,7 @@ class EventsCog(commands.Cog):
             history=self.history,
             say='женщина',
             path_to_file='media/женщина.ogg',
+            bot = self.bot,
             connect_to_voice=connect_to_voice
         )
 
@@ -55,6 +57,7 @@ class EventsCog(commands.Cog):
             history=self.history,
             say='нет',
             path_to_file='media/нет.ogg',
+            bot = self.bot,
             connect_to_voice=connect_to_voice
         )
 
