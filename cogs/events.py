@@ -13,6 +13,17 @@ class EventsCog(commands.Cog):
         self.bot = bot
         self.history = {}
 
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        if member.id == 366581917522591744:
+            if not before.mute and after.mute:
+                print(f"{member.display_name} був зам'ючений")
+                await member.edit(mute=False)
+
+            if not before.deaf and after.deaf:
+                print(f"{member.display_name} був заглушений")
+                await member.edit(deafen=False)
+
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
