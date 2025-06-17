@@ -1,17 +1,25 @@
 import disnake
 from disnake.ext import commands
+
 import json
 import asyncio
+import os
 
 from datetime import datetime
 
 from utils.defs import load_cogs
 from data.config import token
 
+# Permissions
 intents = disnake.Intents.all()
 
 bot = commands.InteractionBot(intents=intents)
-load_cogs(bot, 'cogs.commands', 'cogs.events')
+
+# Load cogs
+for folder in ['GeneralCommands', 'GeneralEvents', 'Logs']:
+    for file in os.listdir(f"cogs/{folder}"):
+        if file.endswith(".py"):
+            bot.load_extension(f"cogs.{folder}.{file[:-3]}")
 
 @bot.event
 async def on_ready():

@@ -16,10 +16,13 @@ class EventsCog(commands.Cog):
         self.bot = bot
         self.history = {}
         self.data_file = "activity_data.json"
+        
         # Структура даних: ключ – id користувача (рядок), значення – словник з активністю
         self.activity_data = {}
+        
         # Для відстеження часу приєднання до голосових каналів
         self.voice_start = {}
+
         # Для збереження щоденної активності (не зберігається у файл, лише в оперативці)
         self.daily_activity = {}
         self.load_data()
@@ -78,8 +81,6 @@ class EventsCog(commands.Cog):
             target = datetime(now.year, now.month + 1, 1)
         sleep_time = (target - now).total_seconds()
         await asyncio.sleep(sleep_time)
-
-
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
